@@ -23,21 +23,45 @@ build:
       description: "Docker build"
       outputs:
         - name: invocationImage
-      arguments:
-        - –-no-cache
 
 install:
   - docker-compose:
-      description: Docker Compose up
+      description: docker-compose up
       arguments:
         - -f 
         - docker-compose-porter.yml
         - up
+
+
+upgrade:
+  - docker-compose:
+      description: docker-compose pull
+      arguments:
+        - -f 
+        - docker-compose-porter.yml
+        - pull
+  - docker-compose:
+      description: docker-compose build
+      arguments:
+        - -f 
+        - docker-compose-porter.yml
+        - build
+        - --pull
+        - --no-cache
+  - docker-compose:
+      description: docker-compose up
+      arguments:
+        - -f 
+        - docker-compose-porter.yml
+        - up
+        - --force-recreate
  
 ps:
   - docker-compose:
       description: Docker Compose ps
       arguments:
+        - -f 
+        - docker-compose-porter.yml      
         - ps
 
 uninstall:
@@ -48,7 +72,7 @@ uninstall:
         - docker-compose-porter.yml
         - down
         - --remove-orphans
-        
+
 customActions:
 stop:
   - docker-compose:
